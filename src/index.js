@@ -5,6 +5,9 @@ import TodoList from "./components/todo-list";
 import AppHeader from "./components/app-header";
 import SearchPanel from "./components/search-panel";
 
+import "./index.css";
+import ItemStatusFilter from "./components/item-status-filter";
+
 const App = () => {
 
   const todoData = [
@@ -14,9 +17,13 @@ const App = () => {
   ];
 
   return (
-    <div>
+    <div className="todo-app">
       <AppHeader toDo={ 1 } done={ 3 }/>
-      <SearchPanel />
+      <div className="top-panel d-flex">
+        <SearchPanel />
+        <ItemStatusFilter />
+      </div>
+
       <TodoList todos={ todoData } />
     </div>
   );
