@@ -13,16 +13,27 @@ export default class App extends Component {
   constructor() {
     super();
 
+    this.maxId = 0; // maxId increases to add unique keys in list-items
+
     this.state = {
       todoData: [
-        { label: "Drink Coffee", done: false, important: false, id: 1 },
-        { label: "Build React App", done: false, important: false, id: 2 },
-        { label: "Have lunch", done: false, important: false, id: 3 }
+        this.createItem("Drink Coffee"),
+        this.createItem("Make React App"),
+        this.createItem("Have lunch")
       ]
     };
 
-    this.maxId = Math.max(...this.state.todoData.map((item) => { return item.id })); // maxId increases to add unique keys in list-items
   }
+
+  createItem = (label) => {
+
+    return {
+      label,
+      important: false,
+      done: false,
+      id: ++this.maxId
+    };
+  };
 
   removeItem = (id) => {
     this.setState(({ todoData }) => {
