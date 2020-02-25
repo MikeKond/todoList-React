@@ -15,9 +15,9 @@ export default class App extends Component {
 
     this.state = {
       todoData: [
-        { label: "Drink Coffee", id: 1 },
-        { label: "Build React App", id: 2 },
-        { label: "Have lunch", id: 3 }
+        { label: "Drink Coffee", done: false, important: false, id: 1 },
+        { label: "Build React App", done: false, important: false, id: 2 },
+        { label: "Have lunch", done: false, important: false, id: 3 }
       ]
     };
 
@@ -26,6 +26,7 @@ export default class App extends Component {
 
   removeItem = (id) => {
     this.setState(({ todoData }) => {
+
       const ind = todoData.findIndex((item) => item.id === id);
 
       return {
@@ -35,18 +36,36 @@ export default class App extends Component {
         ]
       };
     });
-  }
+  };
 
   addItem = (label) => {
     this.setState(({ todoData }) => {
       
-      console.log(this.maxId);
-
       return {
         todoData: [...todoData.slice(), { label: label, id: ++this.maxId }]
       };
     });
-  }
+  };
+
+  toggleProperty = (id, prop) => {
+    this.setState(({ todoData }) => {
+
+      const ind = todoData.findIndex((item) => {
+        return item.id === id;
+      });
+
+      const newItem = { ...todoData[ind] };
+      newItem[prop] = !newItem[prop];
+
+      return {
+        todoData: [
+          ...todoData.slice(0, ind), 
+          newItem,
+          ...todoData.slice(ind + 1)
+        ]
+      };
+    });
+  };
 
   render() {
     
@@ -62,7 +81,9 @@ export default class App extends Component {
   
         <TodoList 
           todos={ todoData } 
-          onDeleted={ this.removeItem } />
+          onDeleted={ this.removeItem } 
+          onToggledDone={ this.toggleProperty } 
+          onToggledImportant={ this.toggleProperty } />
 
         <ItemAddForm 
           onAdded={ this.addItem }/>  

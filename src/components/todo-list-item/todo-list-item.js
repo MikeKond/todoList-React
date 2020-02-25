@@ -33,7 +33,13 @@ export default class TodoListItem extends Component {
 
   render() {
 
-    const { label, onDeleted } = this.props;
+    const { 
+      label, 
+      onDeleted, 
+      onToggledDone: toggleDone, 
+      onToggledImportant: toggleImportant 
+    } = this.props;
+
     const { done, important } = this.state;
     
     let itemClass = "todo-list-item";
@@ -50,13 +56,13 @@ export default class TodoListItem extends Component {
       <span className={ itemClass }>
         <span
           className="todo-list-item-label"
-          onClick={ () => { this.onLabelDone() } }>
+          onClick={ () => { this.onLabelDone(); toggleDone(); } }>
           { label }
         </span>
 
         <button type="button"
                 className="btn btn-outline-success btn-sm float-right"
-                onClick={ () => { this.onLabelImportant() } }>
+                onClick={ () => { this.onLabelImportant(); toggleImportant() } }>
           <i className="fa fa-exclamation" />
         </button>
 

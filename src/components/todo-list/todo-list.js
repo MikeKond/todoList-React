@@ -22,7 +22,9 @@ class TodoList extends Component {
           className="list-group-item">
           <TodoListItem 
             { ...itemProps } 
-            onDeleted={ () => { this.props.onDeleted(id) } } />
+            onDeleted={ () => { this.props.onDeleted(id) } } 
+            onToggledDone={ () => { this.props.onToggledDone(id, "done") } } 
+            onToggledImportant={ () => { this.props.onToggledImportant(id, "important") } } />
         </li>
       );
     });
