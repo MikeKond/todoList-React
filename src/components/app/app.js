@@ -15,12 +15,13 @@ export default class App extends Component {
 
     this.state = {
       todoData: [
-        { label: "Drink Coffee", important: false, id: 1 },
-        { label: "Build React App", important: true, id: 2 },
-        { label: "Have lunch", important: false, id: 3 }
+        { label: "Drink Coffee", id: 1 },
+        { label: "Build React App", id: 2 },
+        { label: "Have lunch", id: 3 }
       ]
     };
 
+    this.maxId = Math.max(...this.state.todoData.map((item) => { return item.id })); // maxId increases to add unique keys in list-items
   }
 
   removeItem = (id) => {
@@ -32,6 +33,17 @@ export default class App extends Component {
           ...todoData.slice(0, ind),
           ...todoData.slice(ind + 1)
         ]
+      };
+    });
+  }
+
+  addItem = (label) => {
+    this.setState(({ todoData }) => {
+      
+      console.log(this.maxId);
+
+      return {
+        todoData: [...todoData.slice(), { label: label, id: ++this.maxId }]
       };
     });
   }
@@ -52,7 +64,8 @@ export default class App extends Component {
           todos={ todoData } 
           onDeleted={ this.removeItem } />
 
-        <ItemAddForm />  
+        <ItemAddForm 
+          onAdded={ this.addItem }/>  
       </div>
     );
   }
