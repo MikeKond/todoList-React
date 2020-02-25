@@ -20,7 +20,9 @@ class TodoList extends Component {
         <li 
           key={ id }
           className="list-group-item">
-          <TodoListItem { ...itemProps }/>
+          <TodoListItem 
+            { ...itemProps } 
+            onDeleted={ () => { this.props.onDeleted(id) } } />
         </li>
       );
     });

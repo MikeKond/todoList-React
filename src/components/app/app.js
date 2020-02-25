@@ -7,7 +7,7 @@ import ItemStatusFilter from "../item-status-filter";
 
 import "./app.css";
 
-class App extends Component {
+export default class App extends Component {
 
   constructor() {
     super();
@@ -22,6 +22,19 @@ class App extends Component {
 
   }
 
+  removeItem = (id) => {
+    this.setState(({ todoData }) => {
+      const ind = todoData.findIndex((item) => item.id === id);
+
+      return {
+        todoData: [
+          ...todoData.slice(0, ind),
+          ...todoData.slice(ind + 1)
+        ]
+      };
+    });
+  }
+
   render() {
     
     const { todoData } = this.state;
@@ -34,10 +47,10 @@ class App extends Component {
           <ItemStatusFilter />
         </div>
   
-        <TodoList todos={ todoData } />
+        <TodoList 
+          todos={ todoData } 
+          onDeleted={ this.removeItem } />
       </div>
     );
   }
 };
-
-export default App;
