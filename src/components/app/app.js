@@ -22,7 +22,7 @@ export default class App extends Component {
         this.createItem("Have lunch")
       ],
 
-      filter: "all" // all, active, done
+      filter: "all", // all, active, done
     };
 
   }
@@ -97,25 +97,31 @@ export default class App extends Component {
     }
   };
 
+  toggleFilter = (toggler) => {
+    this.setState({
+      filter: toggler
+    });
+  };
+
   render() {
     
     const { todoData, filter } = this.state,
           doneCount            = todoData.filter((item) => item.done).length,
           todoCount            = todoData.length - doneCount;
 
-    let visibleItems = this.filter("active", todoData);
-    console.log(visibleItems);
+    let visibleItems = this.filter(filter, todoData);
 
     return (
       <div className="todo-app">
         <AppHeader toDo={ todoCount } done={ doneCount }/>
         <div className="top-panel d-flex">
           <SearchPanel />
-          <ItemStatusFilter />
+          <ItemStatusFilter 
+            onFilterToggled={ this.toggleFilter }/>
         </div>
-  
+    
         <TodoList 
-          todos={ visibleItems } 
+          todos={ visibleItems }
           onDeleted={ this.removeItem } 
           onToggledDone={ this.toggleProperty } 
           onToggledImportant={ this.toggleProperty } />
