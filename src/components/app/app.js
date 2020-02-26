@@ -20,7 +20,9 @@ export default class App extends Component {
         this.createItem("Drink Coffee"),
         this.createItem("Make React App"),
         this.createItem("Have lunch")
-      ]
+      ],
+
+      filter: "all" // all, active, done
     };
 
   }
@@ -78,11 +80,31 @@ export default class App extends Component {
     });
   };
 
+  filter = (filter, items) => {
+    switch (filter) {
+      case "all": 
+        return items;
+
+      case "done":
+        return items.filter((item) => {
+          return item.done;
+        });
+
+      case "active": 
+        return items.filter((item) => {
+          return item.important;
+        });
+    }
+  };
+
   render() {
     
-    const { todoData } = this.state,
-          doneCount    = todoData.filter((item) => item.done).length,
-          todoCount    = todoData.length - doneCount;
+    const { todoData, filter } = this.state,
+          doneCount            = todoData.filter((item) => item.done).length,
+          todoCount            = todoData.length - doneCount;
+
+    let visibleItems = this.filter("active", todoData);
+    console.log(visibleItems);
 
     return (
       <div className="todo-app">
@@ -93,7 +115,7 @@ export default class App extends Component {
         </div>
   
         <TodoList 
-          todos={ todoData } 
+          todos={ visibleItems } 
           onDeleted={ this.removeItem } 
           onToggledDone={ this.toggleProperty } 
           onToggledImportant={ this.toggleProperty } />
